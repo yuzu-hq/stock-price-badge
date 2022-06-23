@@ -26,6 +26,7 @@ And then on your page, just render it like any other HTML element:
     symbol="BRK.A"
     apiKey="YOUR API KEY">
   </stock-price-badge>
+</div>
 ```
 
 And voila! You're off to the races 🐎.
