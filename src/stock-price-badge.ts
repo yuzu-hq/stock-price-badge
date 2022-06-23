@@ -7,8 +7,26 @@ type SecurityPayload = {
       lastTrade: {
         price: string;
       };
+      aggregates: {
+        close: string;
+      }[];
     }[];
   };
+};
+
+type ColorSet = {
+  background: string;
+  border: string;
+};
+
+const up: ColorSet = {
+  background: "#dcfce7", // Tailwind green-100
+  border: "#16a34a", // Tailwind green-600
+};
+
+const down: ColorSet = {
+  background: "#fee2e2", // Tailwind red-100
+  border: "#dc2626", // Tailwind red-600
 };
 
 @customElement("stock-price-badge")
@@ -18,16 +36,16 @@ export class StockPriceBadge extends LitElement {
       display: inline-flex;
       font-family: sans-serif;
 
-      padding: 0.5rem 0.75rem;
+      padding: 0.3rem 0.5rem;
       border-radius: 99rem;
-      background-color: var(--background);
+      background-color: var(--background-color);
       border: 2px solid var(--border-color);
     }
 
     p {
       margin: 0;
       padding: 0;
-      font-size: 1rem;
+      font-size: 0.75rem;
       font-weight: bold;
     }
 
@@ -41,7 +59,7 @@ export class StockPriceBadge extends LitElement {
   /**
    * Your Yuzu API key
    */
-  @property({ type: String })
+  @property({ type: String, attribute: "api-key" })
   apiKey = "";
 
   /**
@@ -51,22 +69,18 @@ export class StockPriceBadge extends LitElement {
   @property({ type: String })
   symbol = "";
 
-  @property({ type: String })
-  backgroundColor = "#cbd5e1"; // Tailwind slate-300
-
-  @property({ type: String })
-  borderColor = "#64748b"; // Tailwind slate-500
-
-  private currentPrice: String = "";
+  private benchmark: number = 0;
+  private currentPrice: number = 0;
 
   private tradeStream: EventSource | null = null;
 
   async connectedCallback() {
     super.connectedCallback();
-    this.style.setProperty("--background", this.backgroundColor);
-    this.style.setProperty("--border-color", this.borderColor);
+    const { lastPrice, benchmark } = await this.fetchPrice();
+    this.benchmark = benchmark;
+    this.currentPrice = lastPrice;
 
-    this.currentPrice = await this.fetchPrice();
+    this.updateColors();
     this.requestUpdate();
     this.startStream();
   }
@@ -81,7 +95,7 @@ export class StockPriceBadge extends LitElement {
     return html`
       <div>
         <p>${this.symbol}</p>
-        <p>$${this.currentPrice}</p>
+        <p>$${this.currentPrice.toFixed(2)}</p>
       </div>
     `;
   }
@@ -91,17 +105,24 @@ export class StockPriceBadge extends LitElement {
     const url = `https://sse.yuzu.dev/sse?streams=${symbols}&token=${this.apiKey}`;
     this.tradeStream = new EventSource(url);
     this.tradeStream.addEventListener("message", (message) => {
-      this.currentPrice = parseFloat(JSON.parse(message.data).price).toFixed(2);
+      this.currentPrice = parseFloat(JSON.parse(message.data).price);
+      this.updateColors();
       this.requestUpdate();
     });
   }
 
-  private async fetchPrice() {
+  private async fetchPrice(): Promise<{
+    lastPrice: number;
+    benchmark: number;
+  }> {
     const query = `
       query FetchSecurityPrice($symbol: String!) {
         securities(input: { symbols: [$symbol] }) {
           lastTrade {
             price
+          }
+          aggregates(input: { limit: 1 }) {
+            close
           }
         }
       }
@@ -122,7 +143,17 @@ export class StockPriceBadge extends LitElement {
     });
 
     const resultBody = (await result.json()) as SecurityPayload;
-    return parseFloat(resultBody.data.securities[0].lastTrade.price).toFixed(2);
+    return {
+      lastPrice: parseFloat(resultBody.data.securities[0].lastTrade.price),
+      benchmark: parseFloat(resultBody.data.securities[0].aggregates[0].close),
+    };
+  }
+
+  private updateColors() {
+    const colorSet = this.benchmark > this.currentPrice ? down : up;
+
+    this.style.setProperty("--background-color", colorSet.background);
+    this.style.setProperty("--border-color", colorSet.border);
   }
 }
 
