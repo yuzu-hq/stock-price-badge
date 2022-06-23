@@ -1,5 +1,5 @@
-import { LitElement } from 'lit';
-export declare class MyElement extends LitElement {
+import { LitElement } from "lit";
+export declare class StockPriceBadge extends LitElement {
     static styles: import("lit").CSSResult;
     /**
      * Your Yuzu API key
@@ -10,6 +10,8 @@ export declare class MyElement extends LitElement {
      * E.g. AAPL, MSFT, BRK.A
      */
     symbol: string;
+    backgroundColor: string;
+    borderColor: string;
     private currentPrice;
     private tradeStream;
     connectedCallback(): Promise<void>;
@@ -20,6 +22,6 @@ export declare class MyElement extends LitElement {
 }
 declare global {
     interface HTMLElementTagNameMap {
-        'stock-price-badge': MyElement;
+        "stock-price-badge": StockPriceBadge;
     }
 }
