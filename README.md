@@ -1,6 +1,6 @@
 ## 🍋 Stock Price Badge Demo
 
-This demo is a drop-in component to render real-time updating stock prices on your website. The entire component is a self-contained web component built using [Lit](https://lit.dev/) and the [Yuzu Stock and Crypto API](https://yuzu.dev).
+This demo is a drop-in component that renders a badge of real-time updating stock prices on your website. The entire component is a self-contained web component built using [Lit](https://lit.dev/) and the [Yuzu Stock and Crypto API](https://yuzu.dev).
 
 To use in your own website, go grab an API key from [Yuzu.dev](https://yuzu.dev).
 
