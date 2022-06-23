@@ -12,8 +12,9 @@ Then, drop this line in the `<head>` of your html:
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stock Price Badge demo</title>
 
-    <!-- 👇 This is the line you want -->
-    <script type="module" src="https://unpkg.com/@yuzu-hq/stock-price-badge/dist/stock-price-badge.es.js"></script>
+    <!-- 👇 These are the two lines you want -->
+    <script type="module" 
+            src="https://unpkg.com/@yuzu-hq/stock-price-badge/dist/stock-price-badge.es.js"></script>
   </head>
 ```
 
