@@ -1,10 +1,10 @@
 {
-  "name": "yuzu-stock-price-badge",
+  "name": "@yuzu-hq/stock-price-badge",
   "private": false,
   "version": "0.1.0",
-  "main": "./dist/yuzu-stock-price-badge.es.js",
+  "main": "./dist/stock-price-badge.es.js",
   "exports": {
-    ".": "./dist/yuzu-stock-price-badge.es.js"
+    ".": "./dist/stock-price-badge.es.js"
   },
   "types": "types/stock-price-badge.d.ts",
   "files": [
