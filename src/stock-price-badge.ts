@@ -76,6 +76,11 @@ export class StockPriceBadge extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
+    if (!this.apiKey) {
+      console.error("⚠️ No Yuzu API key provided for stock-price-badge component")
+      return
+    }
+
     const { lastPrice, benchmark } = await this.fetchPrice();
     this.benchmark = benchmark;
     this.currentPrice = lastPrice;
@@ -92,6 +97,10 @@ export class StockPriceBadge extends LitElement {
   }
 
   render() {
+    if (!this.apiKey) {
+      return null
+    }
+
     return html`
       <div>
         <p>${this.symbol}</p>
