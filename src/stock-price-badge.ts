@@ -1,5 +1,5 @@
 import { html, css, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 
 type SecurityPayload = {
   data: {
@@ -69,7 +69,9 @@ export class StockPriceBadge extends LitElement {
   @property({ type: String })
   symbol = "";
 
+  @state()
   private benchmark: number = 0;
+  @state()
   private currentPrice: number = 0;
 
   private tradeStream: EventSource | null = null;
@@ -86,7 +88,6 @@ export class StockPriceBadge extends LitElement {
     this.currentPrice = lastPrice;
 
     this.updateColors();
-    this.requestUpdate();
     this.startStream();
   }
 
@@ -116,7 +117,6 @@ export class StockPriceBadge extends LitElement {
     this.tradeStream.addEventListener("message", (message) => {
       this.currentPrice = parseFloat(JSON.parse(message.data).price);
       this.updateColors();
-      this.requestUpdate();
     });
   }
 
