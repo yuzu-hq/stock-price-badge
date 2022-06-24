@@ -2,6 +2,8 @@
 
 This demo is a drop-in component that renders a badge of real-time updating stock prices on your website. The entire component is a self-contained web component built using [Lit](https://lit.dev/) and the [Yuzu Stock and Crypto API](https://yuzu.dev).
 
+![live](https://user-images.githubusercontent.com/3506415/175434612-7d4a8b84-f232-482a-b29c-b3bbb3520b9f.gif)
+
 To use in your own website, go grab an API key from [Yuzu.dev](https://yuzu.dev).
 
 Then, drop this line in the `<head>` of your html:
@@ -24,7 +26,7 @@ And then on your page, just render it like any other HTML element:
 <div>
   <stock-price-badge
     symbol="BRK.A"
-    apiKey="YOUR API KEY">
+    api-key="YOUR API KEY">
   </stock-price-badge>
 </div>
 ```
