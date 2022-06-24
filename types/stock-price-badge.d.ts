@@ -10,15 +10,15 @@ export declare class StockPriceBadge extends LitElement {
      * E.g. AAPL, MSFT, BRK.A
      */
     symbol: string;
-    backgroundColor: string;
-    borderColor: string;
+    private benchmark;
     private currentPrice;
     private tradeStream;
     connectedCallback(): Promise<void>;
     disconnectedCallback(): void;
-    render(): import("lit-html").TemplateResult<1>;
+    render(): import("lit-html").TemplateResult<1> | null;
     startStream(): void;
     private fetchPrice;
+    private updateColors;
 }
 declare global {
     interface HTMLElementTagNameMap {
