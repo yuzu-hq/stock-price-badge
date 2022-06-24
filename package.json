@@ -1,7 +1,7 @@
 {
   "name": "@yuzu-hq/stock-price-badge",
   "repository": "https://github.com/yuzu-hq/stock-price-badge",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "./dist/stock-price-badge.es.js",
   "exports": {
     ".": "./dist/stock-price-badge.es.js"
